@@ -1,46 +1,12 @@
-locals {
-  name = lower(var.name)
-  db = lower(var.db)
+resource "aws_vpc" "main" {
+  cidr_block = var.cidr_block
 }
 
-data "aws_ami" "ubuntu" {
-  provider    = aws
-  most_recent = true
-
-  filter {
-    name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  owners = ["099720109477"] # Canonical
-}
-
-resource "aws_instance" "this" {
-  ami           = data.aws_ami.ubuntu.id
-  instance_type = "t3.micro"
+resource "aws_subnet" "private" {
+  vpc_id = aws.vpc.main.id
+  cidr_block = cidrsubnet(var.cidr_block, 8, 1)
 
   tags = {
-    Name = local.name
-  }
-
-  lifecycle {
-    create_before_destroy = true
-  }
-
-  depends_on = [ aws_instance.db ]
-}
-
-
-resource "aws_instance" "db" {
-  ami           = data.aws_ami.ubuntu.id
-  instance_type = "t3.micro"
-
-  tags = {
-    Name = local.db
+    Name = "Main"
   }
 }
