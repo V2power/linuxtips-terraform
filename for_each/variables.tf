@@ -21,6 +21,6 @@ variable "cria_db" {
 }
 
 variable "instancias" {
-  type = set(string)
-  description = "Lista das instâncias a serem criadas"
+  type = map(string)
+  description = "Mapa das instâncias a serem criadas"
 }

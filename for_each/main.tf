@@ -17,9 +17,9 @@ data "aws_ami" "ubuntu" {
 }
 
 resource "aws_instance" "this" {
-  for_each = var.instancias
+  for_each      = var.instancias
   ami           = data.aws_ami.ubuntu.id
-  instance_type = "t3.micro"
+  instance_type = each.value
 
   tags = {
     Name = each.key
