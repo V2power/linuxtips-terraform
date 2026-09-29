@@ -5,5 +5,5 @@ output "instance_ip" {
 
 output "instance_db" {
   description = "IP do Database privado"
-  value = aws_instance.db.private_ip
+  value = aws_instance.db[*].private_ip
 }
