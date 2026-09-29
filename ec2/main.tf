@@ -37,6 +37,7 @@ resource "aws_instance" "this" {
 
 
 resource "aws_instance" "db" {
+  count = var.cria_db && var.env == "prod" ? 1 : 0
   ami           = data.aws_ami.ubuntu.id
   instance_type = "t3.micro"
 
