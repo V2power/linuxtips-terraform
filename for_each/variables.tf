@@ -21,6 +21,9 @@ variable "cria_db" {
 }
 
 variable "instancias" {
-  type = map(string)
+  type = map(object({
+    instance_type = string
+    plataform = string
+  }))
   description = "Mapa das instâncias a serem criadas"
 }
